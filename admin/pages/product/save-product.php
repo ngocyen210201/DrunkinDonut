@@ -16,7 +16,6 @@ if ($_GET['action'] == 'edit') {
             WHERE ProductID = '$pid'";
     $row = getResultByQuery($con, $query, 'row');
     $num = getResultByQuery($con, $query, 'count');
-    echo $num;
     //create img path
     $pic =  "../../../public/images/products/" . $row['ThumbnailPic'];
     $discount = $_POST['discount'];
@@ -28,16 +27,24 @@ if ($_GET['action'] == 'edit') {
         if ($image_name != "") {
             gc_collect_cycles();
             unlink($pic);
-            $src = $_FILES['image']['tmp_name'];
-            $dst = "../../../public/images/products/" . $image_name;
-            $upload = move_uploaded_file($src, $dst);
-            if ($upload == false) {
-                echo "<script> window.location.href = 'edit-product.php?pid=$pid&error=Upload Failled';</script>";
+            $exp = explode('.', $image_name1);
+            $ext = end($exp);
+            $strlow = strtolower($ext);
+            if ($strlow == 'jpg' || $strlow == 'png' || $strlow == 'jpeg') {
+                $src = $_FILES['image']['tmp_name'];
+                $dst = "../../../public/images/products/" . $image_name;
+                $upload = move_uploaded_file($src, $dst);
+                if ($upload == false) {
+                    echo "<script> window.location.href = 'edit-product.php?pid=$pid&error=Upload Failled';</script>";
+                    exit();
+                }
+            } else {
+                echo "<script> window.location.href = 'edit-product.php?pid=$pid&error=Invalid photo type.';</script>";
                 exit();
             }
+        } else {
+            $image_name = $row['ThumbnailPic'];
         }
-    } else {
-        $image_name = $row['ThumbnailPic'];
     }
     if ($image_name == "") {
         echo "<script> window.location.href = 'edit-product.php?pid=$pid&error=Thumbnail picture cannot be empty.';</script>";
@@ -74,11 +81,11 @@ elseif ($_GET['action'] == 'add') {
             $upload = move_uploaded_file($src, $dst);
             // Check whether image is uploaded or not
             if ($upload == false) {
-                echo "<script> window.location.href = 'add-product.php?error=Upload Không Thành Công';</script>";
+                echo "<script> window.location.href = 'add-product.php?error=Upload Failled';</script>";
                 exit();
             }
         }
-    }else {
+    } else {
         $image_name = '';
     }
 

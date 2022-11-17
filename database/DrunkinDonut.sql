@@ -70,8 +70,10 @@ FOREIGN KEY (AccountID) REFERENCES `Account` (AccountID) ON UPDATE CASCADE ON DE
 --
 
 INSERT INTO `Cart` (`CartID`,`AccountID`) VALUES
-('cart01',3),
-('cart02',4);
+('cart01',1),
+('cart02',2),
+('cart03',3),
+('cart04',4);
 
 
 

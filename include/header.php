@@ -46,7 +46,7 @@ if (!str_contains($currentUrl, "product-list")) {
         <nav class="navbar">
             <ul>
                 <li> <a href="/DrunkinDonut/index.php">Home</a></li>
-                <li> <a href="/DrunkinDonut/pages/product/product-list.php">Product</a></li>
+                <li> <a href="/DrunkinDonut/pages/product/product-list.php?category=all">Product</a></li>
                 <li> <a href="/DrunkinDonut/pages/about_us.php">About Us</a></li>
                 <li><a class="cta" href="#contact">Contact</a></li>
             </ul>
@@ -68,7 +68,7 @@ if (!str_contains($currentUrl, "product-list")) {
                     <?php } ?>
                 </div>
             </div>
-            <a href="./pages/view_cart.php" class="fa-solid fa-basket-shopping">
+            <a href="/DrunkinDonut/pages/product/view-cart.php" class="fa-solid fa-basket-shopping">
             </a>
         </div>
     </header>

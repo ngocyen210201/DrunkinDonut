@@ -12,7 +12,11 @@ if (isset($_POST['sort'])) {
     $sort = $_POST['sort'];
     // nếu url chứa sort sẵn
     if (str_contains($url, 'sort')) {
-        $url = explode("&sort", $url);
+        if (str_contains($url, '?sort')) {
+            $url = explode("?sort", $url);
+        } else {
+            $url = explode("&sort", $url);
+        }
         $newUrl = $url[0];
         if (str_contains($newUrl, '?')) {
             echo "<script>window.open('$newUrl&sort=$sort', '_self')</script>";
@@ -82,7 +86,7 @@ if (isset($_POST['sort'])) {
             $numStart = 0;
             if (isset($_GET['page'])) {
                 $page = $_GET['page'];
-                $numStart = 5 * ($page - 1);
+                $numStart = 12 * ($page - 1);
             }
 
             if (isset($_GET['search'])) {
@@ -94,7 +98,7 @@ if (isset($_POST['sort'])) {
             }
             $pageItem = 12;
             $query = "SELECT ProductID, c.*, ProductName, ThumbnailPic, Price, ProductQuantity 
-                        FROM `Product` p INNER JOIN `Categories` c ON p.CategoryID = c.CategoryID $condition $searchCondition
+                        FROM `Product` p LEFT JOIN `Categories` c ON p.CategoryID = c.CategoryID $condition $searchCondition
                         ORDER BY $sort LIMIT $pageItem OFFSET $numStart";
             $getAll = "SELECT ProductID, c.CategoryName, ProductName, ThumbnailPic, Price, ProductQuantity 
                         FROM `Product` p INNER JOIN `Categories` c ON p.CategoryID = c.CategoryID $condition";

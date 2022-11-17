@@ -29,3 +29,19 @@ function showPass() {
   }
 }
 
+// view cart
+
+// submit form khi nút "Lưu thay đổi" đc bấm
+function saveChange() {
+  document.getElementById("myForm").submit();
+}
+
+function checkout() {
+  // thay đổi action của form
+  document.getElementById("myForm").action = "../order/checkout.php";
+  // thay đổi method của form
+  document.getElementById("myForm").method = "get";
+  // submit form
+  document.getElementById("myForm").submit();
+  e.preventDefault();
+}

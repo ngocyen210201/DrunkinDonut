@@ -1468,8 +1468,13 @@ th img {
     cursor: pointer;
 }
 
-.save-change:hover {
-    background-color: #d0bd80;
+.save-change:hover, 
+.checkout2:hover,
+.cnumber .plus:hover,
+.cnumber .minus:hover {
+    background-color: var(--hover);
+    color: white;
+    border-color: white;
 }
 
 .checkout1 {
@@ -1495,10 +1500,6 @@ th img {
     cursor: pointer;
 }
 
-.checkout2:hover {
-    background-color: #d0bd80;
-}
-
 .cnumber input {
     width: 10%;
     text-align: center;
@@ -1512,15 +1513,15 @@ th img {
 
 .cnumber .minus,
 .cnumber .plus {
-    width: 25px;
-    height: auto;
-    background: #f2f2f2;
-    border-radius: 3px;
+    width: 30px;
+    height: 30px;
+    background: var(--theme-color);
+    border-radius: 100%;
+    border: 1px solid var(--name);
     display: inline-block;
     text-align: center;
-    padding-bottom: 3px;
     vertical-align: middle;
-    font-size: 2rem;
+    font-size: 20px;
 }
 
 /* draft */

@@ -49,13 +49,14 @@ if (isset($_SESSION['id'])) {
                     <div class="button-section">
                         <h1>Product(s)</h1>
                         <div>
-                            <a href="add-product.php">
-                                <button type="button" class="button">
-                                    <i class="fa fa-plus"></i> Add Product
-                                </button>
-                            </a>
                             <?php
                             if ($role == 3) { ?>
+                                <a href="add-product.php">
+                                    <button type="button" class="button">
+                                        <i class="fa fa-plus"></i> Add Product
+                                    </button>
+                                </a>
+
                                 <button type="submit" class="button" name="delete_all" onclick='return onDelete()'>
                                     <i class="fa fa-trash-o"></i> Delete Product
                                 </button>
@@ -65,7 +66,9 @@ if (isset($_SESSION['id'])) {
                     <table id="account">
                         <thead>
                             <tr>
-                                <th style="width:5%;"><input type="checkbox" id="checkAll" value="" onclick="toggle(this)" /></th>
+                                <?php if ($role == 3) { ?>
+                                    <th style="width:5%;"><input type="checkbox" id="checkAll" value="" onclick="toggle(this)" /></th>
+                                <?php } ?>
                                 <th>ID </th>
                                 <th>Category Name</th>
                                 <th>Product Name</th>
@@ -78,7 +81,9 @@ if (isset($_SESSION['id'])) {
                         <tbody>
                             <?php while ($row = mysqli_fetch_array($getProduct)) { ?>
                                 <tr>
-                                    <td><input type="checkbox" class="checkBox" name="choose_all[]" value="<?php echo $row['ProductID'] ?>" /></td>
+                                    <?php if ($role == 3) { ?>
+                                        <td><input type="checkbox" class="checkBox" name="choose_all[]" value="<?php echo $row['ProductID'] ?>" /></td>
+                                    <?php } ?>
                                     <td><?php echo $row['ProductID'] ?></td>
                                     <td><?php echo $row['CategoryName'] ?></td>
                                     <td><?php echo $row['ProductName'] ?></td>
@@ -101,7 +106,7 @@ if (isset($_SESSION['id'])) {
                                             <!-- Modal content -->
                                             <form action="manage-product.php?action=edit&id=<?php echo $row['ProductID']; ?>" method="POST" role="form" enctype="multipart/form-data">
                                                 <div id="myModal-edit<?php echo $i ?>" class="modal">
-                                                    <div class="modal-content"  style="width: 30%;">
+                                                    <div class="modal-content" style="width: 30%;">
                                                         <div class="modal-head">
                                                             <h1>Product #<?php echo $row['ProductID'] ?> </h1>
                                                             <span class="close" id="close-edit<?php echo $i ?>">&times;</span>
@@ -170,11 +175,16 @@ if (isset($_SESSION['id'])) {
     if (isset($_GET['edit-product'])) {
         $editID = $_GET['edit-product'];
         $newQuantity = $_GET['quantity'];
-        updateItem($con, "Product", "ProductQuantity = $newQuantity", "ProductID = $editID");
+        $floatQuantity = (float)$newQuantity;
+        if ($floatQuantity < 0 || fmod($floatQuantity, 1) != 0 || $floatQuantity > 4294967295 || $newQuantity == "") {
+            echo "<script> alert('Invalid Quantity!!')</script>";
+        } else {
+            updateItem($con, "Product", "ProductQuantity = $newQuantity", "ProductID = $editID");
+        }
         echo "<script>window.location.href = '/DrunkinDonut/admin/pages/product/manage-product.php'</script>";
     }
 } else {
-    header("Location: ../index.php");
+    header("Location: /DrunkinDonut/index.php");
     exit();
 }
 ?>
